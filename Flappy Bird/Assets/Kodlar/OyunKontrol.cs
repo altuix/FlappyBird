@@ -22,7 +22,7 @@ public class OyunKontrol : MonoBehaviour
     float degisimZaman = 0;
 
     int sayac = 0;
-
+    bool gameOver = false;
     void Start()
     {
         Gokyuzu1Fizik = Gokyuzu1.GetComponent<Rigidbody2D>();
@@ -50,34 +50,44 @@ public class OyunKontrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // gokyuzunun sonuna geldiğinde
-        if (Gokyuzu1.transform.position.x <= -gokyuzuUzunluk)
+        if (!gameOver)
         {
-            //gokyuzu1'i sıranın sonuna iterek sonsuz bir map oluşturduk
-            Gokyuzu1.transform.position += new Vector3(gokyuzuUzunluk * 2, 0);
-        }
 
-        // gokyuzunun sonuna geldiğinde
-        if (Gokyuzu2.transform.position.x <= -gokyuzuUzunluk)
-        {
-            //gokyuzu2'i sıranın sonuna iterek sonsuz bir map oluşturduk
-            Gokyuzu2.transform.position += new Vector3(gokyuzuUzunluk * 2, 0);
-        }
 
-        //------------------------------------
-        degisimZaman += Time.deltaTime;
-        if (degisimZaman > 2f) // 2 saniyede 1 yeni engel
-        {
-            degisimZaman = 0;
-            //mapin y eksenindeki uc değerler aralıklarından bir değer belirledik
-            float yEksenim = Random.Range(-0.78f, 2.10f);
 
-            engeller[sayac].transform.position = new Vector3(11f, yEksenim);
-            sayac++;
-            if (sayac == engeller.Length)
+            // gokyuzunun sonuna geldiğinde
+            if (Gokyuzu1.transform.position.x <= -gokyuzuUzunluk)
             {
-                sayac = 0;
+                //gokyuzu1'i sıranın sonuna iterek sonsuz bir map oluşturduk
+                Gokyuzu1.transform.position += new Vector3(gokyuzuUzunluk * 2, 0);
             }
+
+            // gokyuzunun sonuna geldiğinde
+            if (Gokyuzu2.transform.position.x <= -gokyuzuUzunluk)
+            {
+                //gokyuzu2'i sıranın sonuna iterek sonsuz bir map oluşturduk
+                Gokyuzu2.transform.position += new Vector3(gokyuzuUzunluk * 2, 0);
+            }
+
+            //------------------------------------
+            degisimZaman += Time.deltaTime;
+            if (degisimZaman > 2f) // 2 saniyede 1 yeni engel
+            {
+                degisimZaman = 0;
+                //mapin y eksenindeki uc değerler aralıklarından bir değer belirledik
+                float yEksenim = Random.Range(-0.78f, 2.10f);
+
+                engeller[sayac].transform.position = new Vector3(11f, yEksenim);
+                sayac++;
+                if (sayac == engeller.Length)
+                {
+                    sayac = 0;
+                }
+            }
+        }
+        else
+        {
+
         }
     }
 
@@ -91,5 +101,6 @@ public class OyunKontrol : MonoBehaviour
             Gokyuzu1Fizik.velocity = Vector2.zero;
             Gokyuzu2Fizik.velocity = Vector2.zero;
         }
+        gameOver = true;
     }
 }

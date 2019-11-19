@@ -23,12 +23,23 @@ public class Kontrol : MonoBehaviour
 
     OyunKontrol oyunKontrol;
 
+    //AudioSource Ses;
+
+    //public AudioClip CarpmaSesi;
+    //public AudioClip PuanSesi;
+    //public AudioClip KanatSesi;
+
+
+    AudioSource []sesler;
+
     void Start()
     {
         Score.text = "Puan = 0";
         oyunKontrol = GameObject.FindGameObjectWithTag("GameController").GetComponent<OyunKontrol>();
 
+        //Ses = GetComponent<AudioSource>();
 
+        sesler = GetComponents<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         Fizik = GetComponent<Rigidbody2D>();
     }
@@ -39,6 +50,9 @@ public class Kontrol : MonoBehaviour
         kusAnimasyon();
         if (Input.GetMouseButtonDown(0) && !gameOver)
         {
+            //Ses.clip = KanatSesi;
+            //Ses.Play();
+            sesler[0].Play();
             //Çekim kuvvetini sıfırladık
             Fizik.velocity = new Vector2(0, 0);
 
@@ -60,6 +74,8 @@ public class Kontrol : MonoBehaviour
 
     void kusAnimasyon()
     {
+
+       
         kusAnimasyonZaman += Time.deltaTime;
         if (kusAnimasyonZaman > 0.2f)
         {
@@ -94,15 +110,25 @@ public class Kontrol : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "puan")
+        if (collision.gameObject.tag == "puan" && !gameOver)
         {
+            //Ses.clip = PuanSesi;
+            //Ses.Play();
+
+            sesler[1].Play();
+
             puan++;
             Score.text = "Puan = " + puan.ToString();
             Debug.Log(puan);
         }
 
-        if (collision.gameObject.tag == "engel")
+        if (collision.gameObject.tag == "engel" && !gameOver)
         {
+            //Ses.clip = CarpmaSesi;
+            //Ses.Play();
+            sesler[2].Play();
+
+
             gameOver = true;
             oyunKontrol.oyunBitti();
         }
