@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Kontrol : MonoBehaviour
 {
@@ -14,9 +15,20 @@ public class Kontrol : MonoBehaviour
     float kusAnimasyonZaman = 0;
 
     Rigidbody2D Fizik;
+    int puan = 0;
+
+    public Text Score;
+
+    bool gameOver = false;
+
+    OyunKontrol oyunKontrol;
+
     void Start()
     {
-      
+        Score.text = "Puan = 0";
+        oyunKontrol = GameObject.FindGameObjectWithTag("GameController").GetComponent<OyunKontrol>();
+
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         Fizik = GetComponent<Rigidbody2D>();
     }
@@ -25,11 +37,11 @@ public class Kontrol : MonoBehaviour
     void Update()
     {
         kusAnimasyon();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !gameOver)
         {
             //Çekim kuvvetini sıfırladık
             Fizik.velocity = new Vector2(0, 0);
-           
+
             //yukarı çıksın diye kuvvet uyguladık
             Fizik.AddForce(new Vector2(0, 200));
         }
@@ -78,5 +90,21 @@ public class Kontrol : MonoBehaviour
         }
 
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "puan")
+        {
+            puan++;
+            Score.text = "Puan = " + puan.ToString();
+            Debug.Log(puan);
+        }
+
+        if (collision.gameObject.tag == "engel")
+        {
+            gameOver = true;
+            oyunKontrol.oyunBitti();
+        }
     }
 }
