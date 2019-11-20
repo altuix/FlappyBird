@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Kontrol : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class Kontrol : MonoBehaviour
     //public AudioClip KanatSesi;
 
 
-    AudioSource []sesler;
+    AudioSource[] sesler;
 
     void Start()
     {
@@ -75,7 +76,7 @@ public class Kontrol : MonoBehaviour
     void kusAnimasyon()
     {
 
-       
+
         kusAnimasyonZaman += Time.deltaTime;
         if (kusAnimasyonZaman > 0.2f)
         {
@@ -131,6 +132,21 @@ public class Kontrol : MonoBehaviour
 
             gameOver = true;
             oyunKontrol.oyunBitti();
+
+            if (PlayerPrefs.GetInt("bestScore") < puan)
+            {
+                PlayerPrefs.SetInt("bestScore", puan);
+            }
+
+
+
+            Invoke("anaMenuyeDon", 2);
         }
+    }
+
+    void anaMenuyeDon()
+    {
+        SceneManager.LoadScene("AnaMenu");
+
     }
 }
