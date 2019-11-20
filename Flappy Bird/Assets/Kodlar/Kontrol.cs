@@ -48,7 +48,7 @@ public class Kontrol : MonoBehaviour
     void Update()
     {
         kusAnimasyon();
-        if (Input.GetMouseButtonDown(0) && !gameOver)
+        if (Input.GetButtonDown("Fire1") && !gameOver)
         {
             //Ses.clip = KanatSesi;
             //Ses.Play();
